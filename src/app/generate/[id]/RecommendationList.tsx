@@ -35,9 +35,10 @@ export default function RecommendationList({ embedding, gameId }: PropsI) {
       body: JSON.stringify({ embedding, minyear: minyear }),
     });
     const data = await response.json();
-    const removeDuplicates = data.filter(
+    // TODO: add this in the database stored procedure 
+    const removeDuplicates = data?.length ? data.filter(
       (item: { metadata: { bgg_id: string } }) => item?.metadata.bgg_id !== gameId
-    );
+    ) : []
     
     setState((prevState) => ({
       ...prevState,

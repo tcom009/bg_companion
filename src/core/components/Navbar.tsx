@@ -1,9 +1,32 @@
-import { Flex, Grid, Text, Badge, Box } from "@radix-ui/themes";
+"use client";
+
+import { Flex, Grid, Text, Button, Box } from "@radix-ui/themes";
 import Link from "next/link";
 import Image from "next/image";
 import logo from "../../../public/logo.svg";
-import GitHubBadge from "./GitHubBadge";
+import { useRouter } from "next/navigation";
+import { ExitIcon } from "@radix-ui/react-icons";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { useClientAuth } from "@/core/hooks/useClientAuth";
+import { noSSR } from "next/dynamic";
+export const dynamic = "force-dynamic";
+
 export default function Navbar() {
+  const router = useRouter();
+  const supabase = createClientComponentClient();
+  const auth = useClientAuth()
+  
+  const handleLogOut = async () => {
+    await supabase.auth.signOut();
+    // router.push("/auth/login");
+    router.refresh()
+  }
+  const goToSell = () => {
+    // router.push(`${auth ? '/sell' : '/auth/login'}`);
+    router.push('/sell');
+  };
+
+  
   return (
     <Grid
       position={"fixed"}
@@ -11,7 +34,7 @@ export default function Navbar() {
       left={"0"}
       className="black-background z-index-1"
       width={"100%"}
-      columns={{ lg: "5", xl: "5", md: "5", sm: "3", initial: "3" }}
+      columns={"3"}
       height={"9"}
     >
       <Link href={"/"} as={"/"} className="no-underline">
@@ -19,7 +42,7 @@ export default function Navbar() {
           width={"100%"}
           height={"100%"}
           justify={"center"}
-          mt={{ sm: "2", xs: "2", initial: "2" }}
+          //mt={{ sm: "2", xs: "2", initial: "2" }}
           mr={{ sm: "2", xs: "2", initial: "2" }}
           align={"center"}
           ml={{ xl: "9", lg: "7", md: "5", sm: "5", xs: "5", initial: "3" }}
@@ -35,20 +58,19 @@ export default function Navbar() {
           </Text>
         </Flex>
       </Link>
-      <Flex align={"center"} ml={{ sm: "5", xs: "5", initial: "5" }}>
-        <Box>
-          <Badge color={"yellow"}>
-            <Text weight={"bold"} size={{ lg: "3", md: "3", sm: "1", xs: "1" }}>
-              Last Update: September 15th
-            </Text>
-          </Badge>
-        </Box>
-      </Flex>
       <Box></Box>
-      <Box></Box>
-
-      <Flex align={"center"} ml={{ sm: "5", xs: "5", initial: "5" }}>
-        <GitHubBadge />
+      <Flex align={"center"} direction={"row"} gap={"4"}>
+        <Button onClick={goToSell} size={{ lg: "2", md: "2", initial: "1" }}>
+          Vender Juegos
+        </Button>
+        {auth && (
+          <Button size={{ lg: "2", md: "2", initial: "1" }} variant="outline" onClick={handleLogOut}>
+            {" "}
+            <ExitIcon />
+            Logout{" "}
+          </Button>
+        )}
+        
       </Flex>
     </Grid>
   );

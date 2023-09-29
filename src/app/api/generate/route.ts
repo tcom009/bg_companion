@@ -6,5 +6,3 @@ export  async function POST(request:Request){
     const recommendations = await getRecommendations(embedding, minyear);
     return NextResponse.json(recommendations);
 }
-
-//this is a comment

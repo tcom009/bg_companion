@@ -4,15 +4,21 @@ import { redirect } from "next/navigation"
 
 export const dynamic = 'force-dynamic'
 
-export default async function UnauthenticatedPage() {
+interface PropsI {
+  children: React.ReactNode
+}
+
+export default async function withAuthentication({ children }: PropsI) {
   const supabase = createServerComponentClient({ cookies })
   const {data: {session }} = await supabase.auth.getSession()
   
 
-  if (session){
-    redirect('/sell')
+  if (!session){
+    redirect('/auth/login')
   }
   return (
-    <div>Please, login to see this page</div>
+    <>
+    {children}
+    </>
   )
 }
