@@ -8,7 +8,6 @@ import { useRouter } from "next/navigation";
 import { ExitIcon } from "@radix-ui/react-icons";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useClientAuth } from "@/core/hooks/useClientAuth";
-import { noSSR } from "next/dynamic";
 export const dynamic = "force-dynamic";
 
 export default function Navbar() {
