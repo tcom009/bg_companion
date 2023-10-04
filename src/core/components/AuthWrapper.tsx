@@ -16,7 +16,7 @@ export default async function AuthWrapper({ children }: PropsI) {
   } = await supabase.auth.getSession();
 
   if (!session) {
-    redirect("/auth/login");
+    redirect("/login");
   }else if(session){
     return <>{children}</>;
   }

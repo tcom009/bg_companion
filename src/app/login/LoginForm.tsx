@@ -43,22 +43,24 @@ export default function LoginForm() {
         email,
         password,
         options: {
-          emailRedirectTo: `${location.origin}/auth/callback`,
+          emailRedirectTo: `${location.origin}/api/auth/signup/`,
         },
       });
       if (data.error) {
+        console.log(data.error)
         setState((prevState) => ({
           ...prevState,
-          error: "Ha ocurrido un error",
+          error: data.error.message,
         }));
       } else {
-        router.push("/sell");
+        router.refresh();
       }
+    }else{
+      setState((prevState) => ({
+        ...prevState,
+        error: "Por favor, asegurate de llenar todos los campos",
+      }));
     }
-    setState((prevState) => ({
-      ...prevState,
-      error: "Por favor, asegurate de llenar todos los campos",
-    }));
   };
 
   const handleLogin = async () => {
@@ -73,7 +75,7 @@ export default function LoginForm() {
           error: "Credenciales invalidas, intentalo de nuevo",
         }));
       } else {
-        router.push("/sell");
+        router.refresh();
       }
     } else {
       setState((prevState) => ({

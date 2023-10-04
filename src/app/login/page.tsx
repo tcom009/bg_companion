@@ -11,7 +11,7 @@ export default async function LoginPage(){
         data: { session },
       } = await supabase.auth.getSession();
     if (session){
-        redirect('/')
+        redirect('/sell')
     }
     return <div><LoginForm/></div>
 }

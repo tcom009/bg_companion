@@ -18,11 +18,9 @@ export default function Navbar() {
   
   const handleLogOut = async () => {
     await supabase.auth.signOut();
-    // router.push("/auth/login");
     router.refresh()
   }
   const goToSell = () => {
-    // router.push(`${auth ? '/sell' : '/auth/login'}`);
     router.push('/sell');
   };
 
